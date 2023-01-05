@@ -5,6 +5,8 @@ import styles from "./App.module.css";
 import "./global.css";
 import { Post } from "./components/Post";
 import { Sidebar } from "./components/Sidebar";
+import { LogIn } from "./components/LogIn";
+import { useState } from "react";
 
 interface PostsTypes {
   id: number;
@@ -18,6 +20,17 @@ interface PostsTypes {
     content: string;
   }[];
   publishedAt: Date;
+}
+export interface UserProps {
+  name: undefined | string;
+  role: undefined | string;
+  avatarUrl: undefined | string;
+  bannerImageUrl: undefined | string;
+}
+
+export interface SessionProps {
+  isLoggedIn: boolean;
+  user: UserProps;
 }
 
 const posts: PostsTypes[] = [
@@ -60,25 +73,45 @@ const posts: PostsTypes[] = [
 ];
 
 function App() {
+  const [userState, setUserState] = useState<SessionProps>({
+    isLoggedIn: false,
+    user: {
+      name: undefined,
+      role: undefined,
+      avatarUrl: undefined,
+      bannerImageUrl: undefined,
+    },
+  });
+
+  function handleSetUserState(newUserState: SessionProps) {
+    setUserState(newUserState);
+  }
+
   return (
     <div>
       <Header />
 
       <div className={styles.wrapper}>
-        <Sidebar />
+        {userState.isLoggedIn ? (
+          <>
+            <Sidebar user={userState.user} />
 
-        <main>
-          {posts.map((post) => {
-            return (
-              <Post
-                key={post.id}
-                author={post.author}
-                content={post.content}
-                publishedAt={post.publishedAt}
-              />
-            );
-          })}
-        </main>
+            <main>
+              {posts.map((post) => {
+                return (
+                  <Post
+                    key={post.id}
+                    author={post.author}
+                    content={post.content}
+                    publishedAt={post.publishedAt}
+                  />
+                );
+              })}
+            </main>
+          </>
+        ) : (
+          <LogIn handleSetUserState={handleSetUserState} />
+        )}
       </div>
     </div>
   );
