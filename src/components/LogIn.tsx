@@ -1,6 +1,8 @@
-import styles from "LogIn.module.css";
+import { Mountains } from "phosphor-react";
 import { FormEvent } from "react";
-import { SessionProps } from "../App";
+import { SessionProps } from "../context/SessionContext";
+
+import styles from "./LogIn.module.css";
 
 interface LogInProps {
   handleSetUserState: (newUserState: SessionProps) => void;
@@ -38,7 +40,7 @@ export function LogIn({ handleSetUserState }: LogInProps) {
       userAvatar === "" ||
       userBannerImage === ""
     ) {
-      alert('Verifique se os campos estão corretamentos')
+      alert("Verifique se os campos estão corretamentos");
       return;
     }
 
@@ -54,17 +56,29 @@ export function LogIn({ handleSetUserState }: LogInProps) {
   }
 
   return (
-    <form onSubmit={handleLogFormData}>
-      <label htmlFor="name">Nome:</label>
-      <input type="text" id="name" placeholder="Daniel Moura" />
-      <label htmlFor="role">Cargo:</label>
-      <input type="text" id="role" placeholder="Desenvolvedor de software" />
-      <label htmlFor="avatarURL">Avatar:</label>
-      <input type="text" id="avatarUrl" placeholder="https://avatar.com/myProfile.png" />
-      <label htmlFor="bannerUrl">Banner do perfil:</label>
-      <input type="text" id="bannerUrl" placeholder="https://banners.com/myBanner.png" />
+    <>
+      <section className={styles.LogIn}>
+        <div>
+          <h2>Olá, Bem vindo!</h2>
+          <p>Crie uma conta temporária para acessar o feed 🚀.</p>
+        </div>
+        <form onSubmit={handleLogFormData}>
+          <input type="text" id="name" placeholder="Nome" />
+          <input type="text" id="role" placeholder="Cargo" />
+          <input
+            type="text"
+            id="avatarUrl"
+            placeholder="Avatar: Ex.:https://avatar.com/myProfile.png"
+          />
 
-      <button type="submit">Acessar Feed</button>
-    </form>
+          <input
+            type="text"
+            id="bannerUrl"
+            placeholder="Banner: Ex.:https://banners.com/myBanner.png"
+          />
+          <button type="submit">Acessar Feed</button>
+        </form>
+      </section>
+    </>
   );
 }

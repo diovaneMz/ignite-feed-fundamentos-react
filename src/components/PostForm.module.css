@@ -1,0 +1,54 @@
+.postForm {
+  display: flex;
+  gap: 0.3rem;
+
+  background-color: var(--gray-800);
+
+  margin-bottom: 2rem;
+  padding: 2.5rem 2.5rem 0.4rem 2.5rem;
+  border-radius: 8px;
+}
+
+.postForm form {
+  width: 100%;
+}
+
+.postForm form textarea {
+  width: 100%;
+  height: 6rem;
+  width: 100%;
+  background-color: var(--gray-900);
+  border: 1px solid var(--gray-700);
+  resize: none;
+  padding: 0.7rem;
+  border-radius: 8px;
+  color: var(--gray-100);
+  line-height: 1.4;
+  margin-bottom: 0.1rem;
+  overflow: scroll;
+}
+
+.postForm form textarea::-webkit-scrollbar {
+  display: none;
+}
+
+.postForm form > footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.postForm button[type="submit"] {
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: 0;
+  background: var(--green-500);
+  color: var(--white);
+  font-weight: 700;
+  cursor: pointer;
+
+  transition: all 0.1s;
+}
+
+.postForm button[type="submit"]:not(:disabled):hover {
+  filter: brightness(1.3);
+}

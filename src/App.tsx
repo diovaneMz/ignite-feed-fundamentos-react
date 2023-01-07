@@ -1,118 +1,92 @@
+import { useContext, useState } from "react";
+import { SessionContext, SessionProps } from "./context/SessionContext";
+
+import { LogIn } from "./components/LogIn";
 import { Header } from "./components/Header";
-
-import styles from "./App.module.css";
-
-import "./global.css";
 import { Post } from "./components/Post";
 import { Sidebar } from "./components/Sidebar";
-import { LogIn } from "./components/LogIn";
-import { useState } from "react";
+import { PostForm } from "./components/PostForm";
 
-interface PostsTypes {
+import "./global.css";
+import styles from "./App.module.css";
+
+export interface PostsTypes {
   id: number;
   author: {
     avatarUrl: string;
     name: string;
     role: string;
   };
-  content: {
-    type: "paragraph" | "link";
-    content: string;
-  }[];
+  content: string[];
   publishedAt: Date;
 }
-export interface UserProps {
-  name: undefined | string;
-  role: undefined | string;
-  avatarUrl: undefined | string;
-  bannerImageUrl: undefined | string;
-}
-
-export interface SessionProps {
-  isLoggedIn: boolean;
-  user: UserProps;
-}
-
-const posts: PostsTypes[] = [
-  {
-    id: 1,
-    author: {
-      avatarUrl: "https://github.com/diego3g.png",
-      name: "Diego Fernandes",
-      role: "CTO @Rocketseat",
-    },
-    content: [
-      { type: "paragraph", content: "Fala Galera 👋" },
-      {
-        type: "paragraph",
-        content:
-          "Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return,",
-      },
-      { type: "link", content: "jane.design/doctorcare" },
-    ],
-    publishedAt: new Date("2022-12-22 12:00:00"),
-  },
-  {
-    id: 2,
-    author: {
-      avatarUrl: "https://github.com/maykbrito.png",
-      name: "Mayk Brito",
-      role: "Educator @Rocketseat",
-    },
-    content: [
-      { type: "paragraph", content: "Fala Galera 👋" },
-      {
-        type: "paragraph",
-        content:
-          "Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return,",
-      },
-      { type: "link", content: "jane.design/doctorcare" },
-    ],
-    publishedAt: new Date("2022-12-18 20:00:00"),
-  },
-];
 
 function App() {
-  const [userState, setUserState] = useState<SessionProps>({
-    isLoggedIn: false,
-    user: {
-      name: undefined,
-      role: undefined,
-      avatarUrl: undefined,
-      bannerImageUrl: undefined,
+  const { setUserState, userState } = useContext(SessionContext);
+  const [posts, setPosts] = useState<PostsTypes[]>([
+    {
+      id: 1,
+      author: {
+        avatarUrl: "https://github.com/diego3g.png",
+        name: "Diego Fernandes",
+        role: "CTO @Rocketseat",
+      },
+      content: [
+        "Fala Galera 👋",
+        "Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return,",
+        "jane.design/doctorcare",
+      ],
+      publishedAt: new Date("2022-12-22 12:00:00"),
     },
-  });
+    {
+      id: 2,
+      author: {
+        avatarUrl: "https://github.com/maykbrito.png",
+        name: "Mayk Brito",
+        role: "Educator @Rocketseat",
+      },
+      content: [
+        "Fala Galera 👋",
+        "Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return,",
+        "jane.design/doctorcare",
+      ],
+      publishedAt: new Date("2022-12-18 20:00:00"),
+    },
+  ]);
 
   function handleSetUserState(newUserState: SessionProps) {
     setUserState(newUserState);
+  }
+
+  function handleNewPost(newPost: PostsTypes) {
+    setPosts((state) => [newPost, ...state]);
   }
 
   return (
     <div>
       <Header />
 
-      <div className={styles.wrapper}>
-        {userState.isLoggedIn ? (
-          <>
-            <Sidebar user={userState.user} />
+      {userState.isLoggedIn ? (
+        <div className={styles.wrapper}>
+          <Sidebar user={userState.user} />
 
-            <main>
-              {posts.map((post) => {
-                return (
-                  <Post
-                    key={post.id}
-                    author={post.author}
-                    content={post.content}
-                    publishedAt={post.publishedAt}
-                  />
-                );
-              })}
-            </main>
-          </>
-        ) : (
-          <LogIn handleSetUserState={handleSetUserState} />
-        )}
-      </div>
+          <main>
+            <PostForm currentPosts={posts} handleNewPost={handleNewPost} />
+            {posts.map((post) => {
+              return (
+                <Post
+                  key={post.id}
+                  author={post.author}
+                  content={post.content}
+                  publishedAt={post.publishedAt}
+                />
+              );
+            })}
+          </main>
+        </div>
+      ) : (
+        <LogIn handleSetUserState={handleSetUserState} />
+      )}
     </div>
   );
 }

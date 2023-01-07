@@ -1,15 +1,26 @@
-import { ThumbsUp, Trash } from "phosphor-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { SessionContext } from "../context/SessionContext";
+import { format, formatDistanceToNow } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import { Avatar } from "./Avatar";
+
+import { ThumbsUp, Trash } from "phosphor-react";
 import styles from "./Comment.module.css";
 
 interface CommentProps {
   content: string;
   onDeleteComment: (comment: string) => void;
+  publishedAt: Date;
 }
 
-export function Comment({ content, onDeleteComment }: CommentProps) {
+export function Comment({ content, onDeleteComment, publishedAt }: CommentProps) {
+  const { userState } = useContext(SessionContext);
+
   const [likeCount, setLikeCount] = useState(0);
+
+  const ownerName = userState.user.name;
+  const ownerRole = userState.user.role;
+  const ownerAvatar = userState.user.avatarUrl;
 
   function handleDeleteComment() {
     onDeleteComment(content);
@@ -21,17 +32,25 @@ export function Comment({ content, onDeleteComment }: CommentProps) {
     });
   }
 
+  const publishedDateFormated = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
+    locale: ptBR,
+  });
+
+  const commentDateRelativeToNow = formatDistanceToNow(publishedAt, {
+    locale: ptBR,
+  });
+
   return (
     <div className={styles.comment}>
-      <Avatar hasBorder={false} src="https://github.com/diovaneMz.png" alt=''/>
+      <Avatar hasBorder={false} src={ownerAvatar} alt={`avatar de ${ownerName}`} />
 
       <div className={styles.commentBox}>
         <div className={styles.commentContent}>
           <header>
             <div className={styles.authorAndTime}>
-              <strong>Diovane Marcelino</strong>
-              <time title="8 de Dezembro às 8:13h" dateTime="2022-12-08 08:13:30">
-                Cerca de 1h atrás
+              <strong>{ownerName}</strong>
+              <time title={publishedDateFormated} dateTime={publishedAt.toISOString()}>
+                há {commentDateRelativeToNow}
               </time>
             </div>
 

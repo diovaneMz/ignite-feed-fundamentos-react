@@ -1,6 +1,7 @@
 import { format, formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { ChangeEvent, FormEvent, InvalidEvent, TextareaHTMLAttributes, useState } from "react";
+import { ChangeEvent, FormEvent, InvalidEvent, useContext, useState } from "react";
+import { SessionContext } from "../context/SessionContext";
 
 import { Avatar } from "./Avatar";
 import { Comment } from "./Comment";
@@ -13,19 +14,23 @@ interface Author {
   avatarUrl: string;
 }
 
-interface Content {
-  type: 'paragraph' | 'link';
-  content: string;
-}
-
 interface PostProps {
   author: Author;
   publishedAt: Date;
-  content: Content[];
+  content: string[];
+}
+
+interface CommentTypes {
+  owner: string;
+  content: string;
+  publishedAt: Date;
 }
 
 export function Post({ author, content, publishedAt }: PostProps) {
-  const [comments, setComments] = useState(["Post muito bacana, hein?!"]);
+  const { userState } = useContext(SessionContext);
+  const userData = userState.user;
+
+  const [comments, setComments] = useState<CommentTypes[]>([] as CommentTypes[]);
   const [newCommentText, setNewCommentText] = useState("");
 
   const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
@@ -39,7 +44,16 @@ export function Post({ author, content, publishedAt }: PostProps) {
   function handleCreateNewComment(event: FormEvent) {
     event.preventDefault();
 
-    setComments([...comments, newCommentText]);
+    console.log(comments);
+
+    setComments([
+      {
+        owner: userData.name,
+        content: newCommentText,
+        publishedAt: new Date(),
+      },
+      ...comments,
+    ]);
     setNewCommentText("");
   }
 
@@ -54,13 +68,13 @@ export function Post({ author, content, publishedAt }: PostProps) {
 
   function deleteComment(commentToDelete: string) {
     const commentsWithoutDeletedOne = comments.filter((comment) => {
-      return comment !== commentToDelete;
+      return comment.content !== commentToDelete;
     });
 
     setComments(commentsWithoutDeletedOne);
   }
 
-  const isNewCommentEmpty = newCommentText.length === 0
+  const isNewCommentEmpty = newCommentText.length === 0;
 
   return (
     <article className={styles.post}>
@@ -73,21 +87,13 @@ export function Post({ author, content, publishedAt }: PostProps) {
           </div>
         </div>
         <time title={publishedDateFormatted} dateTime={publishedAt.toISOString()}>
-          {publishedDateRelativeToNow}
+          há {publishedDateRelativeToNow}
         </time>
       </header>
 
       <div className={styles.content}>
         {content.map((line) => {
-          if (line.type === "paragraph") {
-            return <p key={line.content}>{line.content}</p>;
-          } else if (line.type === "link") {
-            return (
-              <p key={line.content}>
-                <a href="#">{line.content}</a>;
-              </p>
-            );
-          }
+          return <p key={line + line.length + content}>{line}</p>;
         })}
       </div>
 
@@ -112,7 +118,12 @@ export function Post({ author, content, publishedAt }: PostProps) {
       <div className={styles.commentList}>
         {comments.map((comment) => {
           return (
-            <Comment key={comment} content={comment} onDeleteComment={deleteComment} />
+            <Comment
+              key={comment.content}
+              content={comment.content}
+              onDeleteComment={deleteComment}
+              publishedAt={comment.publishedAt}
+            />
           );
         })}
       </div>

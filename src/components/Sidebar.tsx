@@ -1,5 +1,5 @@
 import { PencilLine } from "phosphor-react";
-import { UserProps } from "../App";
+import { SessionProps, UserProps } from "../context/SessionContext";
 import { Avatar } from "./Avatar";
 import styles from "./Sidebar.module.css";
 
@@ -17,10 +17,10 @@ export function Sidebar({ user }: SidebarProps) {
         <span>{user.role}</span>
       </div>
       <footer>
-        <a href="#">
+        <button disabled type="button">
           <PencilLine size={20} />
           Editar seu perfil
-        </a>
+        </button>
       </footer>
     </aside>
   );
