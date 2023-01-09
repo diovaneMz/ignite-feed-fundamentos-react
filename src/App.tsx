@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SessionContext, SessionProps } from "./context/SessionContext";
 
 import { LogIn } from "./components/LogIn";
@@ -22,7 +22,7 @@ export interface PostsTypes {
 }
 
 function App() {
-  const { setUserState, userState } = useContext(SessionContext);
+  const { setUserState, userState, lightTheme } = useContext(SessionContext);
   const [posts, setPosts] = useState<PostsTypes[]>([
     {
       id: 1,
@@ -61,6 +61,20 @@ function App() {
   function handleNewPost(newPost: PostsTypes) {
     setPosts((state) => [newPost, ...state]);
   }
+
+  function handleToggleBodyTheme() {
+    const body = document.getElementsByTagName("body").item(0);
+    const bodyClasses = body?.classList;
+    if (bodyClasses?.contains("light-theme")) {
+      body?.classList.remove("light-theme");
+      return;
+    }
+    body?.classList.add("light-theme");
+  }
+
+  useEffect(() => {
+    handleToggleBodyTheme();
+  }, [lightTheme]);
 
   return (
     <div>

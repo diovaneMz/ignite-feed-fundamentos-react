@@ -1,5 +1,6 @@
 .sidebar {
   background-color: var(--gray-800);
+  color: var(--white);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -20,7 +21,7 @@
 
 .profile strong {
   margin-top: 1rem;
-  color: var(--gray-100);
+  color: inherit;
   line-height: 1.6;
 }
 
@@ -62,4 +63,13 @@
   background: var(--green-500);
   opacity: 0.4;
   color: var(--white);
+}
+
+.sidebar.sidebarLight {
+  background-color: var(--gray-100);
+  color: var(--gray-800);
+}
+
+.sidebar.sidebarLight footer {
+  border-top: 1px solid var(--gray-300);
 }

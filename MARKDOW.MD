@@ -5,5 +5,5 @@
  => [x] Perfil temporário em exibição na sidebar. 
     [x] comentarios com perfil temporário.
 [x] Criar novos posts.
-[ ] tempo dos comentarios realista ('Cerca de 1h atrás')
-[ ] tema claro.
+[-] tempo dos comentarios realista ('Cerca de 1h atrás')
+[-] tema claro.

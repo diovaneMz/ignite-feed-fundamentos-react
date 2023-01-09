@@ -11,7 +11,7 @@ interface PostFormProps {
 }
 
 export function PostForm({ handleNewPost, currentPosts }: PostFormProps) {
-  const { userState } = useContext(SessionContext);
+  const { userState, lightTheme } = useContext(SessionContext);
   const userData = userState.user;
 
   const [postText, setPostText] = useState<string>("");
@@ -49,7 +49,7 @@ export function PostForm({ handleNewPost, currentPosts }: PostFormProps) {
   }
 
   return (
-    <section className={styles.postForm}>
+    <section className={`${styles.postForm} ${lightTheme && styles.postFormLight}`}>
       <form onSubmit={handleCreateNewPost}>
         <textarea
           name="comment"

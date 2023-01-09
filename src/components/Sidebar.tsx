@@ -1,5 +1,6 @@
 import { PencilLine } from "phosphor-react";
-import { SessionProps, UserProps } from "../context/SessionContext";
+import { useContext } from "react";
+import { SessionContext, SessionProps, UserProps } from "../context/SessionContext";
 import { Avatar } from "./Avatar";
 import styles from "./Sidebar.module.css";
 
@@ -8,8 +9,10 @@ interface SidebarProps {
 }
 
 export function Sidebar({ user }: SidebarProps) {
+  const { lightTheme } = useContext(SessionContext)
+  
   return (
-    <aside className={styles.sidebar}>
+    <aside className={`${styles.sidebar} ${lightTheme && styles.sidebarLight}`}>
       <img className={styles.cover} src={user.bannerImageUrl} />
       <div className={styles.profile}>
         <Avatar src={user.avatarUrl} />

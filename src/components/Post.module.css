@@ -119,3 +119,29 @@
 .commentList {
   margin-top: 2rem;
 }
+
+.post.postLight {
+  background: var(--gray-100);
+  color: var(--black);
+}
+
+.post.postLight .authorInfo strong {
+  color: var(--gray-900);
+}
+
+.post.postLight .content {
+  color: inherit;
+}
+
+.post.postLight .commentForm {
+  border-top: 1px solid var(--gray-300);
+}
+
+.post.postLight .commentForm strong {
+  color: var(--gray-900);
+}
+
+.post.postLight .commentForm textarea {
+  background-color: var(--gray-300);
+  color: var(--gray-900);
+}

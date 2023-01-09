@@ -14,12 +14,11 @@ interface CommentProps {
 }
 
 export function Comment({ content, onDeleteComment, publishedAt }: CommentProps) {
-  const { userState } = useContext(SessionContext);
+  const { userState, lightTheme } = useContext(SessionContext);
 
   const [likeCount, setLikeCount] = useState(0);
 
   const ownerName = userState.user.name;
-  const ownerRole = userState.user.role;
   const ownerAvatar = userState.user.avatarUrl;
 
   function handleDeleteComment() {
@@ -41,7 +40,7 @@ export function Comment({ content, onDeleteComment, publishedAt }: CommentProps)
   });
 
   return (
-    <div className={styles.comment}>
+    <div className={`${styles.comment} ${lightTheme && styles.commentLight}`}>
       <Avatar hasBorder={false} src={ownerAvatar} alt={`avatar de ${ownerName}`} />
 
       <div className={styles.commentBox}>

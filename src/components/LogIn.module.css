@@ -1,4 +1,4 @@
-.LogIn {
+.logIn {
   max-width: 45rem;
   margin: 2rem auto;
   padding: 0 1rem;
@@ -10,19 +10,19 @@
   gap: 5rem;
 }
 
-.LogIn div {
+.logIn div {
   text-align: center;
 }
 
-.LogIn form {
+.logIn form {
   display: flex;
   flex-direction: column;
 }
 
-.LogIn input {
+.logIn input {
   width: 100%;
-  background-color: var(--gray-900);
-  border: 1px solid var(--gray-700);
+  background-color: var(--gray-800);
+  border: 1px solid var(--gray-600);
   resize: none;
   height: 3rem;
   padding: 1rem;
@@ -32,7 +32,7 @@
   margin-bottom: 1rem;
 }
 
-.LogIn form button {
+.logIn form button {
   width: 100%;
   background: transparent;
   color: var(--green-500);
@@ -53,7 +53,13 @@
   transition: all 0.15s;
 }
 
-.LogIn form button:hover {
+.logIn form button:hover {
   background: var(--green-500);
   color: var(--white);
+}
+
+.logIn.logInLight input {
+  background-color: var(--gray-100);
+  border: 1px solid var(--gray-400);
+  color: var(--gray-900);
 }

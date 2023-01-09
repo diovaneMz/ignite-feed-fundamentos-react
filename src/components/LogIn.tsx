@@ -1,6 +1,5 @@
-import { Mountains } from "phosphor-react";
-import { FormEvent } from "react";
-import { SessionProps } from "../context/SessionContext";
+import { FormEvent, useContext } from "react";
+import { SessionContext, SessionProps } from "../context/SessionContext";
 
 import styles from "./LogIn.module.css";
 
@@ -9,6 +8,8 @@ interface LogInProps {
 }
 
 export function LogIn({ handleSetUserState }: LogInProps) {
+  const { lightTheme } = useContext(SessionContext);
+
   function handleLogFormData(event: FormEvent) {
     event.preventDefault();
 
@@ -57,7 +58,7 @@ export function LogIn({ handleSetUserState }: LogInProps) {
 
   return (
     <>
-      <section className={styles.LogIn}>
+      <section className={`${styles.logIn} ${lightTheme && styles.logInLight}`}>
         <div>
           <h2>Olá, Bem vindo!</h2>
           <p>Crie uma conta temporária para acessar o feed 🚀.</p>

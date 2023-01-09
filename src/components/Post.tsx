@@ -27,7 +27,7 @@ interface CommentTypes {
 }
 
 export function Post({ author, content, publishedAt }: PostProps) {
-  const { userState } = useContext(SessionContext);
+  const { userState, lightTheme } = useContext(SessionContext);
   const userData = userState.user;
 
   const [comments, setComments] = useState<CommentTypes[]>([] as CommentTypes[]);
@@ -77,7 +77,7 @@ export function Post({ author, content, publishedAt }: PostProps) {
   const isNewCommentEmpty = newCommentText.length === 0;
 
   return (
-    <article className={styles.post}>
+    <article className={`${styles.post} ${lightTheme && styles.postLight}`}>
       <header>
         <div className={styles.author}>
           <Avatar src={author.avatarUrl} />

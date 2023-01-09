@@ -1,5 +1,7 @@
 :root {
+  /* DARK THEME (DEFAULT) */
   --white: #fff;
+  --black: #000;
 
   --gray-100: #e1e1e1;
   --gray-300: #c4c4cc;
@@ -10,8 +12,9 @@
   --gray-900: #121214;
 
   --green-500: #00875f;
-  
-  --red-400: #F75A68;
+  --blue-500: #69b9df;
+
+  --red-400: #f75a68;
 }
 
 :focus {
@@ -31,6 +34,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+body.light-theme {
+  background-color: var(--white);
+  color: var(--black);
+}
+
 body,
 input,
 textarea,
@@ -38,4 +46,7 @@ button {
   font-family: "Roboto", sans-serif;
   font-weight: 400;
   font-size: 1rem;
+}
+
+@media (prefers-colors-scheme: dark) {
 }
