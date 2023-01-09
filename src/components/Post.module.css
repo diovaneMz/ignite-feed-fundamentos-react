@@ -16,6 +16,8 @@
 
 .content p {
   margin-top: 1rem;
+  line-break: normal;
+  overflow-wrap: normal;
 }
 
 .content a {
