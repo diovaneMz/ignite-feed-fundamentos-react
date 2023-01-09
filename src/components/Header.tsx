@@ -1,5 +1,5 @@
 import styles from "./Header.module.css";
-import igniteLogo from "../assets/ignite-logo.svg";
+import igniteLogo from "/assets/ignite-logo.svg";
 import { useContext } from "react";
 import { SessionContext } from "../context/SessionContext";
 import { Moon, SunDim } from "phosphor-react";

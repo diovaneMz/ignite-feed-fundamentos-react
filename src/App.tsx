@@ -53,6 +53,7 @@ function App() {
       publishedAt: new Date("2022-12-18 20:00:00"),
     },
   ]);
+  const [lightThemeHasFirstChanged, setLightThemeHasFirstChanged] = useState(false);
 
   function handleSetUserState(newUserState: SessionProps) {
     setUserState(newUserState);
@@ -65,15 +66,22 @@ function App() {
   function handleToggleBodyTheme() {
     const body = document.getElementsByTagName("body").item(0);
     const bodyClasses = body?.classList;
-    if (bodyClasses?.contains("light-theme")) {
+    if (lightThemeHasFirstChanged) {
+      if (!bodyClasses?.contains("light-theme")) {
+        body?.classList.add("light-theme");
+        return;
+      }
       body?.classList.remove("light-theme");
-      return;
     }
-    body?.classList.add("light-theme");
   }
 
   useEffect(() => {
-    handleToggleBodyTheme();
+    if (lightThemeHasFirstChanged) {
+      handleToggleBodyTheme();
+      return;
+    } else {
+      setLightThemeHasFirstChanged(true)
+    }
   }, [lightTheme]);
 
   return (
